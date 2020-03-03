@@ -23,12 +23,14 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.gson.Gson;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class Home extends AppCompatActivity {
 
     private FusedLocationProviderClient client;
+    String privStemp = "-1";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,20 +42,28 @@ public class Home extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                client.getLastLocation().addOnSuccessListener(Home.this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        if(location!=null){
-                            //Toast.makeText(getApplicationContext() , location.toString(), Toast.LENGTH_SHORT).show();
-                            double latitude = location.getLatitude();
-                            double longitude = location.getLongitude();
-
-                            Toast.makeText( getApplicationContext() , latitude + " " + longitude + " : ", Toast.LENGTH_SHORT ).show();
-                            updateData( latitude , longitude );
-                            getData();
+                try {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            while (true) {
+                                getData();
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
                         }
-                    }
-                });
+                    }).start();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
+
+
+
+
             }
         });
     }
@@ -92,6 +102,34 @@ public class Home extends AppCompatActivity {
                         // Display the first 500 characters of the response string.
                         //Toast.makeText( getApplicationContext(), "Response is: "+ response.substring(0,500) , Toast.LENGTH_SHORT ).show();
                         Log.v("RES",response);
+
+                        Gson g = new Gson();
+                        Example example = g.fromJson(response, Example.class);
+
+                        if( example.getFeeds().get(0).getField1() != null ){
+                            Toast.makeText(getApplicationContext(), "changed",Toast.LENGTH_SHORT).show();
+                            client.getLastLocation().addOnSuccessListener(Home.this, new OnSuccessListener<Location>() {
+                                @Override
+                                public void onSuccess(Location location) {
+                                    if(location!=null){
+                                        //Toast.makeText(getApplicationContext() , location.toString(), Toast.LENGTH_SHORT).show();
+                                        double latitude = location.getLatitude();
+                                        double longitude = location.getLongitude();
+
+                                        Toast.makeText( getApplicationContext() , latitude + " " + longitude + " : ", Toast.LENGTH_SHORT ).show();
+                                        updateData( latitude , longitude );
+                                        //getData();
+                                    }
+                                }
+                            });
+                            //updateData();
+                        }else{
+                            Toast.makeText(getApplicationContext(), "same",Toast.LENGTH_SHORT).show();
+                        }
+
+                       // Toast.makeText(getApplicationContext(),"Data : "+example.getFeeds().get(0).getField1(),Toast.LENGTH_SHORT).show();
+
+
                     }
                 }, new Response.ErrorListener() {
             @Override
