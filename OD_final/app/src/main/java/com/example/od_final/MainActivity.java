@@ -80,10 +80,10 @@ void setup() {
 
 }
 
-void sendMessage(){
+void sendMessage(String a){
    if(client){
     Serial.println("connected");
-    client.println("This is dhruvik, from arduino");
+    client.println(a);
     delay(2000);
   }
 }
@@ -93,10 +93,16 @@ void loop() {
   if(lock){
     client = server.accept();
     if(client){
-      Serial.println("Client connected successfully")
+      Serial.println("Client connected successfully");
       lock=0;
     }
   }
+
+
+  sendMessage("This is dhruvik");
+
+
+
 
 
 }
