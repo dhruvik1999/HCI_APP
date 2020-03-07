@@ -12,6 +12,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -32,40 +33,59 @@ public class Home extends AppCompatActivity {
     private FusedLocationProviderClient client;
     String privStemp = "-1";
 
+    private Button active,passive;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        requestPermission();
-        client = LocationServices.getFusedLocationProviderClient(this);
-        this.findViewById(R.id.b_getLoc).setOnClickListener(new View.OnClickListener() {
+        initiallization();
+
+        active.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                try {
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            while (true) {
-                                getData();
-                                try {
-                                    Thread.sleep(1000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-                    }).start();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
+            }
+        });
 
-
-
-
+        passive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
             }
         });
+
+
+//        requestPermission();
+//        client = LocationServices.getFusedLocationProviderClient(this);
+//        this.findViewById(R.id.b_getLoc).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                try {
+//                    new Thread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            while (true) {
+//                                getData();
+//                                try {
+//                                    Thread.sleep(1000);
+//                                } catch (InterruptedException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//                        }
+//                    }).start();
+//                }catch (Exception e){
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+    }
+
+    private void initiallization(){
+        active = this.findViewById(R.id.b_active);
+        passive = this.findViewById(R.id.b_passive);
     }
 
     private void requestPermission(){

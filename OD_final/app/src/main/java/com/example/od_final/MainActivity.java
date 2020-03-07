@@ -21,31 +21,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                startActivity(new Intent(getApplicationContext() , Home.class));
-//            }
-//        } , 3000);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(getApplicationContext() , Home.class));
+            }
+        } , 3000);
 
-       new Thread(new Runnable() {
-           @Override
-           public void run() {
-               try {
-                   Socket socket = new Socket("192.168.43.178", 5555);
-                   InputStreamReader streamReader= new InputStreamReader(socket.getInputStream());
-                   BufferedReader reader= new BufferedReader(streamReader);
-
-                   while(true){
-                       String value= reader.readLine();
-                       Log.v("MSG : ", value);
-                   }
-
-               }catch(Exception E){
-                   E.printStackTrace();
-               }
-           }
-       }).start();
+//       new Thread(new Runnable() {
+//           @Override
+//           public void run() {
+//               try {
+//                   Socket socket = new Socket("192.168.43.178", 5555);
+//                   InputStreamReader streamReader= new InputStreamReader(socket.getInputStream());
+//                   BufferedReader reader= new BufferedReader(streamReader);
+//
+//                   while(true){
+//                       String value= reader.readLine();
+//                       Log.v("MSG : ", value);
+//                   }
+//
+//               }catch(Exception E){
+//                   E.printStackTrace();
+//               }
+//           }
+//       }).start();
 
     }
 

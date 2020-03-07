@@ -13,4 +13,20 @@
         android:text="Get Location"
         />
 
+    <Button
+        android:id="@+id/b_active"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:text="Active mode"></Button>
+
+    <Button
+        android:id="@+id/b_passive"
+        android:layout_below="@+id/b_active"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Passive mode"
+        ></Button>
+
 </RelativeLayout>
