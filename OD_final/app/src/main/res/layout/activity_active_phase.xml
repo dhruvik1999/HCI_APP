@@ -4,16 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:padding="10dp"
     tools:context=".ActivePhase">
 
     <Button
         android:id="@+id/b_start"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
         android:gravity="center"
         android:layout_marginTop="50dp"
         android:layout_centerHorizontal="true"
+        android:background="#ffff"
+        android:textColor="@color/colorPrimary"
+        android:textSize="25dp"
         android:text="Start"
         ></Button>
+
+    <TextView
+        android:id="@+id/tv_logs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/b_start"
+        android:layout_marginTop="20dp"
+        android:text="Logs"
+        android:background="#ffff"
+
+        ></TextView>
 
 </RelativeLayout>

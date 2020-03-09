@@ -31,8 +31,7 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
 public class Home extends AppCompatActivity {
 
-    private FusedLocationProviderClient client;
-    String privStemp = "-1";
+
 
     private Button active,passive;
 
@@ -56,32 +55,6 @@ public class Home extends AppCompatActivity {
             }
         });
 
-
-//        requestPermission();
-//        client = LocationServices.getFusedLocationProviderClient(this);
-//        this.findViewById(R.id.b_getLoc).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                try {
-//                    new Thread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            while (true) {
-//                                getData();
-//                                try {
-//                                    Thread.sleep(1000);
-//                                } catch (InterruptedException e) {
-//                                    e.printStackTrace();
-//                                }
-//                            }
-//                        }
-//                    }).start();
-//                }catch (Exception e){
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
     }
 
     private void initiallization(){
@@ -89,75 +62,7 @@ public class Home extends AppCompatActivity {
         passive = this.findViewById(R.id.b_passive);
     }
 
-    private void requestPermission(){
-        ActivityCompat.requestPermissions( this , new String[]{ACCESS_FINE_LOCATION},1  );
-    }
-
-    private void updateData( double latitude, double longitude ){
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://api.thingspeak.com/update?api_key=OAPXZ73I07XJUHH3&field3="+ latitude +"&field4="+longitude;
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                         //Toast.makeText( getApplicationContext(), "Response is: "+ response.substring(0,500) , Toast.LENGTH_SHORT ).show();
-                        }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText( getApplicationContext(), "volly error : write" , Toast.LENGTH_SHORT ).show();                    }
-            });
-        queue.add(stringRequest);
-    }
-
-    private void getData(){
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String url ="https://api.thingspeak.com/channels/1007907/feeds.json?api_key=SCC53U4QXQQW2D9P&results=1";
-
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        // Display the first 500 characters of the response string.
-                        //Toast.makeText( getApplicationContext(), "Response is: "+ response.substring(0,500) , Toast.LENGTH_SHORT ).show();
-                        Log.v("RES",response);
-
-                        Gson g = new Gson();
-                        Example example = g.fromJson(response, Example.class);
-
-                        if( example.getFeeds().get(0).getField1() != null ){
-                            Toast.makeText(getApplicationContext(), "changed",Toast.LENGTH_SHORT).show();
-                            client.getLastLocation().addOnSuccessListener(Home.this, new OnSuccessListener<Location>() {
-                                @Override
-                                public void onSuccess(Location location) {
-                                    if(location!=null){
-                                        //Toast.makeText(getApplicationContext() , location.toString(), Toast.LENGTH_SHORT).show();
-                                        double latitude = location.getLatitude();
-                                        double longitude = location.getLongitude();
-
-                                        Toast.makeText( getApplicationContext() , latitude + " " + longitude + " : ", Toast.LENGTH_SHORT ).show();
-                                        updateData( latitude , longitude );
-                                        //getData();
-                                    }
-                                }
-                            });
-                            //updateData();
-                        }else{
-                            Toast.makeText(getApplicationContext(), "same",Toast.LENGTH_SHORT).show();
-                        }
-
-                       // Toast.makeText(getApplicationContext(),"Data : "+example.getFeeds().get(0).getField1(),Toast.LENGTH_SHORT).show();
 
 
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText( getApplicationContext(), "volly error : read" , Toast.LENGTH_SHORT ).show();                    }
-        });
-        queue.add(stringRequest);
-    }
 
 }

@@ -16,12 +16,12 @@
 
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="@string/map_key" />
 
-        <activity android:name=".PassivePhase"></activity>
-        <activity android:name=".ActivePhase" />
-        <activity android:name=".Home" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".PassivePhase" android:theme="@style/MyTheme"></activity>
+        <activity android:name=".ActivePhase" android:theme="@style/MyTheme" />
+        <activity android:name=".Home" android:theme="@style/MyTheme"/>
+        <activity android:name=".MainActivity" android:theme="@style/MyTheme" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN" android:theme="@style/MyTheme"/>
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
